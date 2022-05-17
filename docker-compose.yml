@@ -1,0 +1,31 @@
+version: '3.6'
+
+services:
+  product-crdb:
+    image: cockroach/cockroach:latest
+    container_name: product-crdb
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    command: start --insecure
+    volume: 
+      - ./data/product-crdb:/cockroach/cockroach-data
+    networks:
+      network_cockroachdb:
+        aliases:
+          - product-crdb
+  
+  user-crdb:
+    image: cockroach/cockroach:latest
+    container_name: user-crdb
+    command: start --insecure --join=product-crdb
+    volume: 
+      - ./data/user-crdb:/cockroach/cockroach-data
+    networks:
+      network_cockroachdb:
+        aliases:
+          - user-crdb
+
+networks:
+    network_cockroachdb:
+        driver: bridge
