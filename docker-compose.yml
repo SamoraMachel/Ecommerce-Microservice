@@ -63,6 +63,7 @@ services:
                 - user-crdb
 
   user-backend: 
+    container_name: user-backend
     build:
       context: ./src/ProductMicroservice
       dockerfile: dockerfile
@@ -72,6 +73,7 @@ services:
       - .:/backend/user
     depends_on:
       - user-crdb
+    command: "python run.py"
     environment:
       DATABASE_URL: "postgresql://root@user-crdb:26258/defaultdb?sslmode=disable"
 
