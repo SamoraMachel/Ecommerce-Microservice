@@ -47,7 +47,33 @@ services:
         network_cockroachdb:
             aliases:
                 - product-crdb
+  
+  user-crdb:
+    container_name: user-crdb
+    image: cockroachdb/cockroach:latest
+    volumes:
+        - ./data/user-crdb:/cockroach/cockroach-data
+    command: start-single-node --insecure
+    ports:
+        - "26258:26257"
+        - "8083:8080"
+    networks:
+        network_cockroachdb:
+            aliases:
+                - user-crdb
 
+  user-backend: 
+    build:
+      context: ./src/ProductMicroservice
+      dockerfile: dockerfile
+    ports:
+      - 5551:8000
+    volumes:
+      - .:/backend/user
+    depends_on:
+      - user-crdb
+    environment:
+      DATABASE_URL: "postgresql://root@user-crdb:26258/defaultdb?sslmode=disable"
 
 networks:
     network_cockroachdb:
