@@ -10,7 +10,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from app.api.v1 import api_v1
-    app.register_blueprint(api_v1, url_prefix='/api/v1')
+    from app.api import api_bp
+    app.register_blueprint(api_bp, url_prefix='/api')
 
     return app
