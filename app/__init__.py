@@ -1,9 +1,17 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from run import get_app, get_db
 
-app : Flask = get_app()
-db : SQLAlchemy = get_db()
+db = SQLAlchemy()
+migrate = Migrate(db)
 
-migrate = Migrate(app, db)
+def create_app():
+    app = Flask(__name__)
+    db.init_app(app)
+    migrate.init_app(app, db)
+
+    from app.api import api_bp
+    app.register_blueprint(api_bp, url_prefix='/api')
+
+
+    return app
