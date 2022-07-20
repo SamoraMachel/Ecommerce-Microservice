@@ -1,0 +1,1 @@
+from app.api.products import views

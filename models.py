@@ -1,4 +1,4 @@
-from app import get_db
+from run import get_db
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
