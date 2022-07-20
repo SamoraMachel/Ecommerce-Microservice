@@ -136,3 +136,6 @@ dmypy.json
 
 # coackroack db data
 data/*
+
+# mocking use cases
+trial.py
